@@ -1,14 +1,14 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-.vscode
+
 
 # Directories
 data/
 models/
 results/
 mlruns/
-
+.idea/
 # File Extensions
 *.csv
 *.pickle
