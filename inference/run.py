@@ -9,6 +9,7 @@ import logging
 import os
 import pickle
 import sys
+import time
 from datetime import datetime
 from utils import get_project_dir, configure_logging
 from Model import Model
@@ -81,15 +82,19 @@ def get_inference_data(path: str) -> pd.DataFrame:
 
 
 def predict_results(model: any, infer_data: pd.DataFrame) -> pd.DataFrame:
-    """Predict de results and join it with the infer_data"""
+    """Predict the results and join it with the infer_data"""
     model.eval()
-    results = np.zeros((len(infer_data), 1))
-    for i in range(len(infer_data)):
-        results.iloc[i] = model(
-            torch.tensor(infer_data.iloc[i, :-1].values.astype(np.float32))
-        )
+    results = np.zeros((infer_data.shape[0], 1))
 
-    infer_data["results"] = results
+    temp_results = (
+        model(torch.tensor(infer_data.iloc[:, :-1].values.astype(np.float32)))
+        .detach()
+        .numpy()
+    )
+
+    for i in range(temp_results.shape[0]):
+        results[i] = np.argmax(temp_results[i])
+    infer_data = results
     return infer_data
 
 
@@ -104,21 +109,33 @@ def store_results(results: pd.DataFrame, path: str = None) -> None:
     logging.info(f"Results saved to {path}")
 
 
+def calcuate_accuracy(infer_data: pd.DataFrame, results: pd.DataFrame) -> float:
+    """Calculate the accuracy of the model"""
+    accuracy = 0
+    for i in range(results.shape[0]):
+        if infer_data.iloc[i, -1] == results[i]:
+            accuracy += 1
+
+    return accuracy / results.shape[0]
+
+
 def main():
     """Main function"""
     configure_logging()
     args = parser.parse_args()
-    print(get_latest_model_path())
     model = Model(4)
     model.load_state_dict(torch.load(get_latest_model_path()))
     model.eval()
     infer_file = args.infer_file
     infer_data = get_inference_data(os.path.join(DATA_DIR, infer_file))
-    print(infer_data)
+    t1 = time.time()
     results = predict_results(model, infer_data)
     store_results(results, args.out_path)
-
+    acc = calcuate_accuracy(infer_data, results)
+    t2 = time.time()
     logging.info(f"Prediction results: {results}")
+    logging.info(f"Accuracy of inference: {acc}")
+    logging.info(f"Time taken to predict: {t2-t1} seconds")
 
 
 if __name__ == "__main__":
