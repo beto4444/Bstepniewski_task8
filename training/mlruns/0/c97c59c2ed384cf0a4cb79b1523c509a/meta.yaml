@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Admin/PycharmProjects/Bstepniewski_task8/training/mlruns/0/c97c59c2ed384cf0a4cb79b1523c509a/artifacts
+end_time: 1706038127399
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c97c59c2ed384cf0a4cb79b1523c509a
+run_name: whimsical-stork-669
+run_uuid: c97c59c2ed384cf0a4cb79b1523c509a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1706038121367
+status: 3
+tags: []
+user_id: Bstepniewski

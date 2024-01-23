@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Admin/PycharmProjects/Bstepniewski_task8/training/mlruns/0/5cf5f729e2aa492eb24e651e7c906505/artifacts
+end_time: 1706035449998
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5cf5f729e2aa492eb24e651e7c906505
+run_name: clumsy-finch-103
+run_uuid: 5cf5f729e2aa492eb24e651e7c906505
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1706035442258
+status: 3
+tags: []
+user_id: Bstepniewski
